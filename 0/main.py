@@ -8,11 +8,11 @@ from time import sleep
 import random
  
 app = Client("my_account")
-
+target = "pyrogramchat"
 
 # Команда type
 
-@app.on_message(filters.command("type", prefixes="/") & filters.me)
+@app.on_message(filters.command("type", prefixes=".") & filters.me)
 def type(_, msg):
     orig_text = msg.text.split(".type ", maxsplit=1)[1]
     text = orig_text
@@ -34,7 +34,7 @@ def type(_, msg):
             sleep(e.x)
  
 # Команда взлома пентагона
-@app.on_message(filters.command("tef", prefixes="/") & filters.me)
+@app.on_message(filters.command("tef", prefixes=".") & filters.me)
 def tef(_, msg):
     perc = 0
  
@@ -96,7 +96,7 @@ def thanos(_, msg):
             time.sleep(e.x)
  
     app.send_message(chat, "Но какой ценой?")
-@app.on_message(filters.command("p", prefixes="/") & filters.me)
+@app.on_message(filters.command("p", prefixes=".") & filters.me)
 def p(_, msg):
     user = "me"
     all_pics = app.iter_profile_photos(user)
@@ -106,8 +106,11 @@ def p(_, msg):
             file_ref=pic.file_ref,
             file_name=f"profile_pics/{user}/{i}.jpg",
         )
-        print(path.split("\\")[-1]) 
+        msg.edit('👍 Твои аватарки успешно скачены - ' + path.split("\\")[-1]) 
 
-
+@app.on_message(filters.command("who", prefixes=".") & filters.me)
+def who(_, msg):
+    for member in app.iter_chat_members(target):
+        msg.edit(member.user.first_name)
 
 app.run()
